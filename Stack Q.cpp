@@ -718,5 +718,365 @@ int main()
              return -1;
          }
     }*/
+//next greater leetcode 496
+/*vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
+        int n = nums1.size();
+        int m = nums2.size();
+        vector<int> nexti(m,-1);
+        vector<int> ans;
+        unordered_map<int,int> mp;
+        stack<int> st;
+        st.push(-1);
+        for(int i=m - 1;i>=0;i--){
+            while(!st.empty() && st.top() <= nums2[i]){
+                st.pop();
+            }
+            if(!st.empty()){
+                nexti[i] = st.top();
+            }
+            st.push(nums2[i]);
+        }
+        for(int i=0;i<m;i++){
+            mp[nums2[i]] = i;
+        }
+        for(int i=0;i<n;i++){
+             int indextofind = nums1[i];
+             int indexis = mp[indextofind];
+             ans.push_back(nexti[indexis]);
+        }
+        return ans;
+    }*/
+//Next element 2
+/*vector<int> nextGreaterElements(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> ans(n);
+        stack<int> st;
+        for(int i=2*n - 1;i>=0;i--){
+            while(!st.empty() && st.top() <= nums[i%n]){
+                st.pop();
+            }
+            if(i<n){
+                ans[i] = st.empty() ? -1 : st.top();
+            }
+            st.push(nums[i%n]);
+        }
+        return ans;
+    }*/
+// Function to convert an infix expression to a postfix expression.
+    /*int priority(char ch) {
+        if (ch == '^') {
+            return 3;
+        } else if (ch == '*' || ch == '/') {
+            return 2;
+        } else if (ch == '+' || ch == '-') {
+            return 1;
+        } else {
+            return -1;
+        }
+    }
+    string infixToPostfix(string s) {
+        int i =0;
+        int n = s.size();
+        string ans = "";
+        stack<char> st;
+        while(i<n){
+             if(s[i] >= '0' && s[i] <= '9' || s[i] >= 'A' && s[i] <= 'Z' || s[i] >= 'a' && s[i] <= 'z'){
+                ans = ans + s[i];
+             }else if(s[i] == '('){
+                st.push('(');
+             }else if(s[i] == ')'){
+                while(!st.empty() && st.top() != '('){
+                    ans += st.top();
+                    st.pop();
+                }
+                st.pop();
+             }else{
+                while(!st.empty() && priority(s[i]) <= priority(st.top())){
+                    ans += st.top();
+                    st.pop();
+                }
+                st.push(s[i]);
+             }
+             i++;
+        }
+        while(!st.empty()){
+            ans = ans + st.top();
+            st.pop();
+        }
+        return ans;
+    } */
+//Infix to prefix in it
+/*int priority(char ch) {
+        if (ch == '^') {
+            return 3;
+        } else if (ch == '*' || ch == '/') {
+            return 2;
+        } else if (ch == '+' || ch == '-') {
+            return 1;
+        } else {
+            return -1;
+        }
+    }
+    string intoprefix(string s) {
+        int i =0;
+        int n = s.size();
+        reverse(s.begin(),s.end());
+        string ans = "";
+        stack<char> st;
+        while(i<n){
+             if(s[i] >= '0' && s[i] <= '9' || s[i] >= 'A' && s[i] <= 'Z' || s[i] >= 'a' && s[i] <= 'z'){
+                ans = ans + s[i];
+             }else if(s[i] == '('){
+                st.push('(');
+             }else if(s[i] == ')'){
+                while(!st.empty() && st.top() != '('){
+                    ans += st.top();
+                    st.pop();
+                }
+                st.pop();
+             }else{
+                if(s[i] == '^'){
+                   while(!st.empty() && priority(s[i]) <= priority(st.top())){
+                    ans += st.top();
+                    st.pop();
+                   }
+                }else{
+                   while(!st.empty() && priority(s[i]) < priority(st.top())){
+                    ans += st.top();
+                    st.pop();
+                   } 
+                }
+                
+                st.push(s[i]);
+             }
+             i++;
+        }
+        while(!st.empty()){
+            ans = ans + st.top();
+            st.pop();
+        }
+        return reverse(ans.begin(),ans.end());
+    }*/    
+//LRU CACHE
+/*class LRUCache
+{
+    public:
+    class Node{
+        public:
+        int data;
+        int key;
+        Node* next;
+        Node* prev;
+        Node(int key,int data){
+            this->key = key;
+            this->data = data;
+            prev = NULL;
+            next = NULL;
+        }
+    };
+    unordered_map<int,Node*> mp;
+    Node* head = new Node(-1,-1);
+    Node* tail = new Node(-1,-1);
+    int cap;
+    LRUCache(int cap)
+    {
+        this->cap = cap;
+        head->next = tail;
+        tail->prev = head;
+    }
+    void addfront(Node* node){
+        Node* temp = head->next;
+        node->prev = head;
+        head->next = node;
+        node->next = temp;
+        temp->prev = node;
+    }
+    void deletenode(Node* node){
+        Node* deleteprev = node->prev;
+        Node* deletenext = node->next;
+        deleteprev->next = deletenext;
+        deletenext->prev = deleteprev;
+    }
+    //Function to return value corresponding to the key.
+    int GET(int key)
+    {
+        if(mp.find(key) != mp.end()){
+            Node* ansnode = mp[key];
+            int ans = ansnode->data;
+            mp.erase(key);
+            deletenode(ansnode);
+            addfront(ansnode);
+            mp[key] = head->next;
+            return ans;
+        }
+        return -1;
+    }
+    
+    //Function for storing key-value pair.
+    void SET(int key, int value)
+    {
+        if(mp.find(key) != mp.end()){
+            Node* exist = mp[key];
+            mp.erase(key);
+            deletenode(exist);
+        }
+        if(mp.size() == cap){
+            mp.erase(tail->prev->key);
+            deletenode(tail->prev);
+        }
+        addfront(new Node(key,value));
+        mp[key] = head->next;
+    }
+};*/	   
+//LFU cache
+/*struct List{
+    int size;
+    Node* head;
+    Node* tail;
+    List(){
+        head = new Node(0,0);
+        tail = new Node(0,0);
+        head->next = tail;
+        tail->prev = head;
+        this->size = 0;
+    }
+    void addfront(Node* node){
+        Node* temp = head->next;
+        node->next = temp;
+        head->next = node;
+        node->prev = head;
+        temp->prev = node;
+        size++;
+    }
+    void deletenode(Node* node){
+        Node* deleteprev = node->prev;
+        Node* deletenext = node->next;
+        deletenext->prev = deleteprev;
+        deleteprev->next = deletenext;
+        size--;
+    }
+};
 
+class LFUCache {
+public:
+    map<int,List*> frequencymap;
+    map<int,Node*> keymap;
+    int maxsize;
+    int minfreq;
+    int currsize;
+    LFUCache(int cap) {
+        this->maxsize = cap;
+        this->minfreq = 0;
+        this->currsize = 0;
+    }
+    
+    void updatefrequency(Node* node){
+        keymap.erase(node->key);
+        frequencymap[node->cnt]->deletenode(node);
+        if(node->cnt == minfreq && frequencymap[node->cnt]->size == 0){
+            minfreq++;
+        }
+        List* nexthigher = new List();
+        if(frequencymap.find(node->cnt + 1) != frequencymap.end()){
+            nexthigher = frequencymap[node->cnt + 1];
+        }
+        node->cnt += 1;
+        nexthigher->addfront(node);//is nexthigher dll me is node ko front per dal do
+        frequencymap[node->cnt] = nexthigher;
+        keymap[node->key] = node;
+    }
+    
+    int get(int key) {
+        if(keymap.find(key) != keymap.end()){
+            Node* node = keymap[key];
+            int ans = node->data;
+            updatefrequency(node);
+            return ans;
+        }
+        return -1;
+    }
+    
+    void put(int key, int value) {
+        if(maxsize == 0){
+            return;
+        }
+        if(keymap.find(key) != keymap.end()){
+            Node* node = keymap[key];
+            node->data =  value;
+            updatefrequency(node);
+        }
+        else{
+            if(currsize == maxsize){
+                List* list = frequencymap[minfreq];
+                keymap.erase(list->tail->prev->key);
+                frequencymap[minfreq]->deletenode(list->tail->prev);
+                currsize--;
+            }
+            currsize++;
+            minfreq = 1;
+            List* list = new List();
+            if(frequencymap.find(minfreq) != frequencymap.end()){
+                list = frequencymap[minfreq];
+            }
+            Node * node = new Node(key,value);
+            list->addfront(node);
+            keymap[key] = node;
+            frequencymap[minfreq] = list;
+        }
+    }
+};*/
+//132 Pattern
+ /*bool find132pattern(vector<int>& nums) {
+        int n  = nums.size();
+        vector<int> mini(n);
+        mini[0] = nums[0];
+        for(int i=1;i<n;i++){
+            mini[i] = min(mini[i - 1],nums[i]);
+        }
+        stack<int> st;
+        for(int i=n - 1;i>=0;i--){
+            while(!st.empty() && st.top() <= mini[i]){
+                   st.pop();
+            }
+            if(!st.empty() && st.top() < nums[i]) return true;
+            st.push(nums[i]);
+        }
+        return false;
+    }*/
+//stock span gfg walla 
+/*vector <int> calculateSpan(int price[], int n)
+    {
+       stack<pair<int,int>> st;
+       vector<int> ans;
+       int ans1;
+       for(int i=0;i<n;i++){
+           while(!st.empty() && st.top().first <= price[i]){
+               st.pop();
+           }
+           ans1 = i - (st.empty() ? -1 : st.top().second);
+           ans.push_back(ans1);
+           st.push({price[i],i});
+       }
+       return ans; 
+    }*/
+//Leetcode walla
+/*class StockSpanner {
+public:
+    int ind;
+    stack<pair<int,int>> st;
+    StockSpanner() {
+        ind = -1;
+    }
+    
+    int next(int price) {
+        ind += 1;
+        int ans;
+        while(!st.empty() && st.top().first <= price){
+            st.pop();
+        }
+        ans = ind - (st.empty() ? -1 : st.top().second);
+        st.push({price,ind});
+        return ans;
+    }
+};*/	    
 
