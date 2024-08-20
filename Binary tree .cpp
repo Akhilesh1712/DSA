@@ -1567,4 +1567,332 @@ Node *buildTree(int in[], int post[], int n) {
         return listhead;
     }*/
 		   
+      // function to construct tree from string
+  /*  map<int,int> mp;
+    void mapping(string str){
+        stack<int> st;
+        for(int i=0;i<str.size();i++){
+            if(str[i] == '('){
+                st.push(i);
+            }
+            else if(str[i] == ')'){
+                mp[st.top()] = i;
+                st.pop();
+            }
+        }
+    }
+    bool isDigit(char s){
+       return (s >= '0' && s <= '9');
+    }
+    Node* tree(string str,int st,int end){
+        if(st>end) return NULL;
+        int num = 0;
+        while(st < str.size() && isDigit(str[st])){
+            int x = str[st] - '0';
+            num = num*10 + x;
+            st++;
+        }
+        st--;
+        Node* root = new Node(num);
+        int y = -1;
+        if(st + 1<= end&& str[st + 1] == '('){
+            y = mp[st + 1];
+        }
+        if(y!= -1){
+            root->left = tree(str,st + 2,y - 1);
+            root->right = tree(str,y + 2,end - 1);
+        }
+        return root;
+    }
+    Node *treeFromString(string str){
+         mapping(str);
+         int st = 0;
+         int end = str.size() - 1;
+         Node* ans = tree(str,st,end);
+         return ans;
+    }*/
+//Invert Binary Tree(mirror)
+ /*TreeNode* invertTree(TreeNode* root) {
+        if (root == nullptr) {
+        return nullptr;
+    }
     
+    // Recursively invert the left and right subtrees
+    TreeNode* left = invertTree(root->left);
+    TreeNode* right = invertTree(root->right);
+    
+    // Swap the left and right children
+    root->left = right;
+    root->right = left;
+    
+    return root;
+    }*/
+//Construct String from Binary Tree			   
+ /*string tree2str(TreeNode* root) {
+        if(root == NULL){
+            return "";
+        }
+        string result = to_string(root->val);
+        string left = tree2str(root->left);
+        string right = tree2str(root->right);
+        if(root->left == NULL && root->right == NULL){
+            return result;
+        }
+        if(root->left == NULL && root->right != NULL){
+            return result + "()" + "(" + right + ")";
+        }
+        if(root->left != NULL && root->right == NULL){
+            return result + "(" + left + ")";
+        }
+        return result + "(" + left + ")" + "(" + right + ")";
+    }*/
+//Transform to Sum Tree
+/*int gh(Node *root){
+        if(root == NULL) return 0;
+        int old_val = root->data;
+        root->data = gh(root->left) + gh(root->right);
+        return old_val + root->data;
+    }
+    void toSumTree(Node *root)
+    {
+        if(root == NULL) return ;
+        gh(root);
+    }*/
+//Minimum swap required to convert binary tree to binary search tree
+/*void inorder(vector<int>& A, vector<int>& in, int index) {
+    if (index >= A.size()) return;
+    inorder(A, in, 2 * index + 1);
+    in.push_back(A[index]);
+    inorder(A, in, 2 * index + 2);
+   }
+    
+    int mino(vector<int>& in, int n) {
+        vector<pair<int, int>> vp(n);
+        for (int i = 0; i < n; i++) {
+            vp[i] = {in[i], i};
+        }
+        sort(vp.begin(), vp.end());
+        int swaps = 0;
+    
+        for (int i = 0; i < n; i++) {
+            while (vp[i].second != i) {
+                swaps++;
+                swap(vp[i], vp[vp[i].second]);
+            }
+        }
+        return swaps;
+    }
+    
+    int minSwaps(vector<int>& A, int n) {
+        vector<int> in;
+        inorder(A, in, 0);
+        return mino(in, n);
+    }*/	
+//Find Duplicate Subtrees
+/*string solve(TreeNode* root,vector<TreeNode*> &ans,unordered_map<string,int> &mp){
+        if(root == NULL){
+            return "N";
+        }
+        string s = to_string(root->val) + "," + solve(root->left,ans,mp) + "," + solve(root->right,ans,mp);
+        if(mp[s]==1){
+           ans.push_back(root);
+        }
+        mp[s]++;
+        return s;
+    }
+    vector<TreeNode*> findDuplicateSubtrees(TreeNode* root) {
+        vector<TreeNode*> ans;
+        unordered_map<string,int> mp;
+        solve(root,ans,mp);
+        return ans;
+    }*/	
+//Leaves at Same Level or Not
+ /*void solve(Node* root,int &check,int h,int &ans){
+        if(root == NULL) return ;
+        if(ans == 0) return ;
+        if(root->left == NULL && root->right == NULL){
+            if(check == -1){
+                check = h;
+            }
+            else{
+                if(check != h){
+                    ans = 0;
+                }
+            }
+            return ;
+        }
+        solve(root->left,check,h + 1,ans);
+        solve(root->right,check,h + 1,ans);
+    }
+    bool check(Node *root)
+    {
+        int check = -1;
+        int h = 0;
+        int ans = 1;
+        solve(root,check,h,ans);
+        if(ans == 0){
+            return false;
+        }
+        return true;
+    }*/
+//Duplicate Subtree(Given a binary tree, find out whether it contains a duplicate sub-tree of size two or more, or not.)
+/*string solve(Node* root,unordered_map<string,int> &mp){
+        if(root == NULL) return "N";
+        if(root->left == NULL && root->right == NULL){
+            string s = to_string(root->data);
+            return s;
+        }
+        string s = to_string(root->data) + "," + solve(root->left,mp) + "," + solve(root->right,mp);
+        mp[s]++;
+        return s;
+    }
+    int dupSub(Node *root) {
+         unordered_map<string,int> mp;
+         solve(root,mp);
+         for(auto i:mp){
+             if(i.second > 1) return 1;
+         }
+         return 0;
+    }*/	
+//Min distance between two given nodes of a Binary Tree
+/*Node* findLCA(Node* root, int a, int b) {
+        if (!root) return NULL;
+        if (root->data == a || root->data == b) return root;
+        
+        Node* leftLCA = findLCA(root->left, a, b);
+        Node* rightLCA = findLCA(root->right, a, b);
+        
+        if (leftLCA && rightLCA) return root;
+        
+        return (leftLCA != NULL) ? leftLCA : rightLCA;
+    }
+
+    int findLevel(Node* root, int data, int level) {
+        if (!root) return -1;
+        if (root->data == data) return level;
+        
+        int left = findLevel(root->left, data, level + 1);
+        if (left != -1) return left;
+        
+        return findLevel(root->right, data, level + 1);
+    }
+
+    int findDist(Node* root, int a, int b) {
+        Node* lca = findLCA(root, a, b);
+        
+        int distA = findLevel(lca, a, 0);
+        int distB = findLevel(lca, b, 0);
+        
+        return distA + distB;
+    }*/
+//Largest subtree sum in a tree
+ /*int maxi = -1e9;
+    int maxum(Node* root){
+        if(!root) return 0;
+         int ans = root->data + maxum(root->left) + maxum(root->right);
+         maxi = max(maxi,ans);
+         return ans;
+    }
+    int findLargestSubtreeSum(Node* root)
+    {
+        
+         maxum(root);
+         return maxi;
+    }*/
+//Minimum Absolute Difference in BST
+/*void inorder(TreeNode* root, vector<int>&v)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        inorder(root->left,v);
+        v.push_back(root->val);
+        inorder(root->right,v);
+    }
+    int getMinimumDifference(TreeNode* root) {
+        if(root==NULL)
+        {
+            return 0;
+        }
+        vector<int>v;
+        inorder(root,v);
+        sort(v.begin(),v.end());
+        int ans=abs(v[0]-v[1]);
+        for(int i=2;i<v.size();i++)
+        {
+            ans=min(ans,abs(v[i]-v[i-1]));
+        }
+        return ans;
+    }*/
+//check tree are isomorphic or not
+/*bool flipEquiv(TreeNode* root1, TreeNode* root2) {
+        if(!root1 && !root2) return 1;
+        if(!root1 || !root2) return 0;
+        if(root1->val != root2->val) return 0;
+        bool a = flipEquiv(root1->left,root2->left) && flipEquiv(root1->right,root2->right);
+        bool b = flipEquiv(root1->left,root2->right) && flipEquiv(root1->right,root2->left);
+        return a || b;
+    }*/
+//Check Tree Traversal(Given Preorder, Inorder and Postorder traversals of some tree of size N. The task is to check if they are all of the same tree or not.)
+/*class Node {
+public:
+    int data;
+    Node* left;
+    Node* right;
+    Node(int data) {
+        this->data = data;
+        left = NULL;
+        right = NULL;
+    }
+};
+
+class Solution {
+public:
+    int findpos(int element, int inorder[], int start, int end) {
+        for (int i = start; i <= end; i++) {
+            if (inorder[i] == element) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    Node* build(int inorder[], int pre[], int& preindex, int start, int end, int N) {
+        if (preindex >= N || start > end) {
+            return NULL;
+        }
+
+        int element = pre[preindex++];
+        Node* newe = new Node(element);
+        int position = findpos(element, inorder, start, end);
+        newe->left = build(inorder, pre, preindex, start, position - 1, N);
+        newe->right = build(inorder, pre, preindex, position + 1, end, N);
+        return newe;
+    }
+
+    Node* buildtree(int pre[], int inorder[], int N) {
+        int preindex = 0;
+        Node* root = build(inorder, pre, preindex, 0, N - 1, N);
+        return root;
+    }
+
+    void builf(vector<int>& posti, Node* root) {
+        if (!root) return;
+        builf(posti, root->left);
+        builf(posti, root->right);
+        posti.push_back(root->data);
+    }
+
+    bool checktree(int pre[], int inorder[], int post[], int N) {
+        Node* root = buildtree(pre, inorder, N);
+        vector<int> posti;
+        builf(posti, root);
+        for (int i = 0; i < N; i++) {
+            if (posti[i] != post[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+};*/
